@@ -20,6 +20,24 @@ const startServer = async () => {
   // REST API
   app.use('/api', routes);
 
+  // Error handler
+  app.use((err, _req, res, _next) => {
+    const { statusCode, message } = err;
+
+    res.status(statusCode).json({
+      status: 'error',
+      message,
+    });
+  });
+
+  // Catch all requests to not defined routes.
+  app.use('*', (req, res) => {
+    res.status(404).json({
+      status: 'error',
+      message: `Cannot find "${req.originalUrl}" route.`,
+    });
+  });
+
   // Start express server with given port.
   app.listen(process.env.PORT, (error) => {
     if (error) {
