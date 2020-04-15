@@ -4,8 +4,8 @@ const { schemas, validate } = require('../middlewares/validations');
 
 const router = Router();
 
-router.post('/register', validate(schemas.register), users.register);
-router.post('/login', validate(schemas.login), users.login);
+router.post('/register', validate(schemas.register, 'body'), users.register);
+router.post('/login', validate(schemas.login, 'body'), users.login);
 router.get('/logout', users.logout);
 router.get('/refresh_token', users.refresh_token);
 

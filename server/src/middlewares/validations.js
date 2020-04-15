@@ -15,7 +15,7 @@ exports.schemas = {
 };
 
 exports.validate = (schema, props) => (req, _res, next) => {
-  const { error } = schema.validate(req[props]);
+  const { error } = schema.validate(req[props], { abortEarly: false });
   if (!error) {
     return next();
   }
