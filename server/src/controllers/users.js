@@ -102,6 +102,12 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.logout = async (req, res, next) => {};
+exports.logout = async (req, res, next) => {
+  res.clearCookie('rft');
+  res.json({
+    status: 'success',
+    message: 'Successfully logout.',
+  });
+};
 
 exports.refresh_token = async (req, res, next) => {};
