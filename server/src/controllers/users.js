@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const db = require('../database');
 const AppError = require('../utilities/appError');
 const createToken = require('../utilities/createToken');
@@ -103,6 +104,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.logout = async (req, res, next) => {
+  // Clear refresh token from cookie.
   res.clearCookie('rft');
   res.json({
     status: 'success',
@@ -110,4 +112,36 @@ exports.logout = async (req, res, next) => {
   });
 };
 
-exports.refresh_token = async (req, res, next) => {};
+exports.refresh_token = async (req, res, next) => {
+  try {
+    // 1. Grab refresh token from cookies.
+    const { rft } = req.cookies;
+    if (!rft) {
+      throw new AppError(422, 'Refresh token is required.');
+    }
+    // 2. Verify refresh token with secret.
+    const payload = await jwt.verify(rft, process.env.REFRESH_TOKEN_SECRET);
+    // 3. Validate token version.
+    const userWithToken = await db('users')
+      .select()
+      .where({ token_version: payload.tokenVersion, id: payload.userId });
+    if (userWithToken.length === 0) {
+      throw new AppError(401, 'Invalid refresh token.');
+    }
+    // 4. Create new access token.
+    const accessToken = createToken(
+      { tokenVersion: payload.token_version, userId: payload.id },
+      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_DURATION
+    );
+    // 5. Send access token.
+    res.json({
+      status: 'success',
+      data: {
+        accessToken,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
