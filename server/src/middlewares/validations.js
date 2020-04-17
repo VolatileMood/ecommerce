@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const AppError = require('../utilities/appError');
 
 exports.schemas = {
   register: Joi.object({
@@ -15,9 +16,17 @@ exports.schemas = {
 };
 
 exports.validate = (schema, props) => (req, _res, next) => {
-  const { error } = schema.validate(req[props], { abortEarly: false });
-  if (!error) {
-    return next();
+  try {
+    const { error } = schema.validate(req[props], { abortEarly: false });
+    if (!error) {
+      return next();
+    }
+    const errMessage = error.details.reduce((obj, err) => {
+      obj[err.path[0]] = err.message;
+      return obj;
+    }, {});
+    throw new AppError(422, errMessage);
+  } catch (error) {
+    next(error);
   }
-  next(error);
 };

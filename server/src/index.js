@@ -24,7 +24,7 @@ const startServer = async () => {
   app.use((err, _req, res, _next) => {
     const { statusCode, message } = err;
 
-    res.status(statusCode).json({
+    res.status(statusCode || 500).json({
       status: 'error',
       message,
     });
