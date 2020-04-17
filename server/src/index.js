@@ -6,7 +6,7 @@ const routes = require('./routes');
 
 const startServer = async () => {
   const app = express();
-  // Loads environment variables from '.env' into process.env.
+  // Loads environment variables from '.env' file into process.env.
   dotenv.config();
 
   // Initialize middlewares.
