@@ -13,3 +13,11 @@ body {
   padding: 0;
   font-family: 'Poppins', sans-serif;
 }
+
+:root {
+  --dark-blue: #1b262c;
+  --blue: #0f4c81;
+  --transparent-blue: #0f4c81b7;
+  --red: #ed6663;
+  --orange: #ffa372;
+}
