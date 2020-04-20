@@ -12,15 +12,13 @@
 .modal {
   display: flex;
   flex-direction: column;
+  position: relative;
   background: white;
-  padding: 1rem;
   border-radius: 3px;
+  width: 50vw;
+  max-width: 40rem;
   z-index: 1;
-}
-
-.modal__header {
-  display: flex;
-  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .modal__overlay {
@@ -33,6 +31,9 @@
 }
 
 .modal__close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
   font-size: 2rem;
   cursor: pointer;
 }

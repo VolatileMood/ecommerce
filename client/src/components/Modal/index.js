@@ -9,9 +9,8 @@ const Modal = ({ isOpen, close, children }) =>
     ? createPortal(
         <div className={styles.modal__container}>
           <div className={styles.modal}>
-            <div className={styles.modal__header}>
-              <MdClose onClick={close} className={styles.modal__close} />
-            </div>
+            <MdClose onClick={close} className={styles.modal__close} />
+
             {children}
           </div>
           <div className={styles.modal__overlay} />

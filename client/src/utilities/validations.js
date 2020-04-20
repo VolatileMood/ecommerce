@@ -18,13 +18,13 @@ const schemas = {
         data[field] = '';
       }
     });
-    if (!validator.isAlpha(data.firstName)) {
+    if (!validator.isAlpha(data.firstName, 'de-DE')) {
       errors.firstName = 'Please enter valid first name.';
     }
     if (validator.isEmpty(data.firstName)) {
       errors.firstName = 'First Name is required.';
     }
-    if (!validator.isAlpha(data.lastName)) {
+    if (!validator.isAlpha(data.lastName, 'de-DE')) {
       errors.lastName = 'Please enter valid last name.';
     }
     if (validator.isEmpty(data.lastName)) {

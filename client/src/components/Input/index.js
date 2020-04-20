@@ -1,11 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import styles from './Input.module.css';
 
 const Input = ({ type, value, onChange, name, label, error }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const inputRef = useRef();
 
   return (
     <div className={styles.input__container}>
@@ -18,9 +17,8 @@ const Input = ({ type, value, onChange, name, label, error }) => {
           onChange={onChange}
           className={`${styles.input} ${
             type === 'password' && styles.input__password
-          }`}
+          } ${error && styles.input__error}`}
           placeholder=' '
-          ref={inputRef}
         />
         <label htmlFor={name} className={styles.label}>
           {label}
@@ -29,7 +27,6 @@ const Input = ({ type, value, onChange, name, label, error }) => {
           <button
             className={styles.password__button}
             onClick={() => {
-              inputRef.current.focus();
               setShowPassword((showPassword) => !showPassword);
             }}
             type='button'
@@ -39,7 +36,7 @@ const Input = ({ type, value, onChange, name, label, error }) => {
           </button>
         )}
       </div>
-      {error && <span className={styles.input__error}>{error}</span>}
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 };

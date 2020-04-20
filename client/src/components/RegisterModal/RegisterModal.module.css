@@ -1,3 +1,16 @@
+.register {
+  display: flex;
+}
+
+.register__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
 .register__form {
   display: flex;
   flex-direction: column;
@@ -5,4 +18,9 @@
 
 .register__form > *:not(:last-child) {
   margin-bottom: 1rem;
+}
+
+.register__image {
+  width: 25%;
+  object-fit: cover;
 }

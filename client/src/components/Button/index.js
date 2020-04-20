@@ -17,9 +17,9 @@ const Button = ({ children, onClick, type, color, background }) => {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   background: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
   type: PropTypes.string,
 };
 

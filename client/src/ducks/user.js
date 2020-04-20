@@ -48,9 +48,13 @@ const registerFailure = (error) => ({
   error,
 });
 
-export const register = (data) => async (dispatch) => {
+export const register = (data, clearForm, closeModal, setFormErrors) => async (
+  dispatch
+) => {
+  // Start the register request.
   dispatch(registerRequest());
   try {
+    // Send POST request with form data.
     const response = await fetch('/api/users/register', {
       method: 'POST',
       headers: {
@@ -58,16 +62,26 @@ export const register = (data) => async (dispatch) => {
       },
       body: JSON.stringify(data),
     });
+    // If the register request was successful,
     if (response.ok) {
+      // Convert JSON response to a javascript object.
       const responseObj = await response.json();
       if (responseObj.status === 'success') {
         const {
           data: { user, accessToken },
         } = responseObj;
+        // Save user data to the redux state.
         dispatch(registerSuccess(user));
+        // Save access token to the local storage.
         localStorage.setItem('act', accessToken);
+        // Clear the register form.
+        clearForm();
+        // Close register modal.
+        closeModal();
       } else {
-        dispatch(registerFailure(responseObj.message));
+        // The email is already taken.
+        dispatch(registerFailure());
+        setFormErrors((errors) => ({ ...errors, ...responseObj.message }));
       }
     }
   } catch (error) {
