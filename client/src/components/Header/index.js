@@ -6,7 +6,7 @@ import styles from './Header.module.css';
 import Button from '../Button';
 import RegisterModal from '../RegisterModal';
 
-const Header = ({ openRegister }) => {
+const Header = ({ openRegister, openLogin }) => {
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.header__logo}>
@@ -26,7 +26,7 @@ const Header = ({ openRegister }) => {
           </Button>
         </li>
         <li>
-          <Button background='var(--blue)' color='white'>
+          <Button background='var(--blue)' color='white' onClick={openLogin}>
             Log In
           </Button>
         </li>
