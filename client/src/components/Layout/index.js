@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer';
 
-const Layout = ({ children }) => {
+const Layout = ({ openRegister, children }) => {
   return (
     <>
-      <Header />
+      <Header openRegister={openRegister} />
       {children}
       <Footer />
     </>
@@ -14,6 +14,7 @@ const Layout = ({ children }) => {
 };
 
 Layout.propTypes = {
+  openRegister: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 
