@@ -1,8 +1,54 @@
 .input__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input__wrapper {
+  position: relative;
+  display: flex;
 }
 
 .input {
+  flex: 1;
+  font-size: 1rem;
+  padding: 1rem;
+  background: var(--grey);
+  border-radius: 3px;
+  border: 2px solid transparent;
+  outline: none;
+}
+
+.input:focus {
+  background: white;
+  border: 2px solid black;
+}
+
+.label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.input:not(:placeholder-shown) ~ .label,
+.input:focus ~ .label {
+  top: 0.1rem;
+  font-size: 0.8rem;
 }
 
 .password__button {
+  display: flex;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.input__password {
+  padding-right: 3rem;
 }
