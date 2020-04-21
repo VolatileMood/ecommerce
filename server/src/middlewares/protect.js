@@ -15,7 +15,7 @@ const protect = async (req, _res, next) => {
       throw new AppError(401, 'Invalid access token.');
     }
     // Verify access token.
-    const { tokenVersion, userId } = await jwt.verify(
+    const { userId, tokenVersion } = await jwt.verify(
       accessToken,
       process.env.ACCESS_TOKEN_SECRET
     );

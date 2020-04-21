@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styles from './App.module.css';
 import Layout from '../Layout';
 import Home from '../../routes/Home';
 import RegisterModal from '../RegisterModal';
 import LoginModal from '../LoginModal';
+import refreshToken from '../../utilities/refreshToken';
+import { loadUser } from '../../ducks/user';
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [registerIsOpen, setRegisterIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
+
+  useEffect(() => {
+    const initSession = async () => {
+      // Check if we have access token.
+      const accessToken = localStorage.getItem('act');
+      if (accessToken) {
+        // Decode the access token.
+        const { exp } = jwtDecode(accessToken);
+        // If the access token is expired, go fetch a new one.
+        if (Date.now() > exp * 1000) {
+          await refreshToken();
+        }
+        dispatch(loadUser());
+      }
+    };
+    initSession();
+  }, []);
 
   const openRegister = () => setRegisterIsOpen(true);
   const closeRegister = () => setRegisterIsOpen(false);

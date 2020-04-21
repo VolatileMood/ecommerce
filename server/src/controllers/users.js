@@ -114,7 +114,6 @@ exports.logout = async (_req, res, _next) => {
 
 exports.refreshToken = async (req, res, next) => {
   try {
-    console.log('Cookies', req.cookies);
     // 1. Grab refresh token from cookies.
     const { rft } = req.cookies;
     if (!rft) {
@@ -131,7 +130,7 @@ exports.refreshToken = async (req, res, next) => {
     }
     // 4. Create new access token.
     const accessToken = createToken(
-      { tokenVersion: payload.token_version, userId: payload.id },
+      { tokenVersion: payload.tokenVersion, userId: payload.userId },
       process.env.ACCESS_TOKEN_SECRET,
       process.env.ACCESS_TOKEN_DURATION
     );
