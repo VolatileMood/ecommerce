@@ -103,7 +103,7 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.logout = async (req, res, next) => {
+exports.logout = async (_req, res, _next) => {
   // Clear refresh token from cookie.
   res.clearCookie('rft');
   res.json({
@@ -112,8 +112,9 @@ exports.logout = async (req, res, next) => {
   });
 };
 
-exports.refresh_token = async (req, res, next) => {
+exports.refreshToken = async (req, res, next) => {
   try {
+    console.log('Cookies', req.cookies);
     // 1. Grab refresh token from cookies.
     const { rft } = req.cookies;
     if (!rft) {
@@ -139,6 +140,19 @@ exports.refresh_token = async (req, res, next) => {
       status: 'success',
       data: {
         accessToken,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.loadUser = (req, res, next) => {
+  try {
+    res.json({
+      status: 'success',
+      data: {
+        user: req.user,
       },
     });
   } catch (error) {

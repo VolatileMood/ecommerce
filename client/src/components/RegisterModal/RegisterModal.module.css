@@ -24,3 +24,11 @@
   width: 25%;
   object-fit: cover;
 }
+
+.modal__close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { MdClose } from 'react-icons/md';
 import styles from './RegisterModal.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
@@ -29,7 +30,8 @@ const RegisterModal = ({ isOpen, close }) => {
   );
 
   return (
-    <Modal isOpen={isOpen} close={close}>
+    <Modal isOpen={isOpen}>
+      <MdClose onClick={close} className={styles.modal__close} />
       <div className={styles.register}>
         <img src={yellowTracksuit} className={styles.register__image} />
         <div className={styles.register__main}>

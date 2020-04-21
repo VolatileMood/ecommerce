@@ -29,11 +29,3 @@
   height: 100vh;
   background: rgba(0, 0, 0, 0.3);
 }
-
-.modal__close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  font-size: 2rem;
-  cursor: pointer;
-}

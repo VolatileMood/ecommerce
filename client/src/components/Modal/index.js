@@ -4,15 +4,11 @@ import { createPortal } from 'react-dom';
 import { MdClose } from 'react-icons/md';
 import styles from './Modal.module.css';
 
-const Modal = ({ isOpen, close, children }) =>
+const Modal = ({ isOpen, children }) =>
   isOpen
     ? createPortal(
         <div className={styles.modal__container}>
-          <div className={styles.modal}>
-            <MdClose onClick={close} className={styles.modal__close} />
-
-            {children}
-          </div>
+          <div className={styles.modal}>{children}</div>
           <div className={styles.modal__overlay} />
         </div>,
         document.body
