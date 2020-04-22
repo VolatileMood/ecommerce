@@ -5,7 +5,6 @@ import styles from './RegisterModal.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
 import useForm from '../../hooks/useForm';
-import validations from '../../utilities/validations';
 import Button from '../Button';
 import yellowTracksuit from '../../media/images/yellowTracksuit.jpeg';
 import { register } from '../../ducks/user';
@@ -25,7 +24,6 @@ const RegisterModal = ({ isOpen, close }) => {
     (data, clearForm, closeModal, setFormErrors) =>
       dispatch(register(data, clearForm, closeModal, setFormErrors)),
     initialValues,
-    validations.register,
     close
   );
 
@@ -33,7 +31,11 @@ const RegisterModal = ({ isOpen, close }) => {
     <Modal isOpen={isOpen}>
       <MdClose onClick={close} className={styles.modal__close} />
       <div className={styles.register}>
-        <img src={yellowTracksuit} className={styles.register__image} />
+        <img
+          src={yellowTracksuit}
+          className={styles.register__image}
+          alt='Woman in yellow tracksuit.'
+        />
         <div className={styles.register__main}>
           <h1>Sign Up</h1>
           <form className={styles.register__form} onSubmit={handleSubmit}>

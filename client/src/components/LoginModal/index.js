@@ -19,10 +19,9 @@ const LoginModal = ({ isOpen, close }) => {
   };
 
   const { values, errors, handleChange, handleSubmit } = useForm(
-    (data, clearForm, closeModal) =>
-      dispatch(login(data, clearForm, closeModal)),
+    (data, clearForm, closeModal, setFormErrors) =>
+      dispatch(login(data, clearForm, closeModal, setFormErrors)),
     initialValues,
-    validations.login,
     close
   );
 
@@ -54,7 +53,11 @@ const LoginModal = ({ isOpen, close }) => {
             </Button>
           </form>
         </div>
-        <img src={leaningFence} className={styles.login__image} />
+        <img
+          src={leaningFence}
+          className={styles.login__image}
+          alt='Woman leaning on fence.'
+        />
       </div>
     </Modal>
   );

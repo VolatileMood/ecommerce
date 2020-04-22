@@ -1,3 +1,5 @@
+import validations from '../utilities/validations';
+
 // Actions
 const REGISTER_REQUEST = 'REGISTER_REQUEST';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -122,6 +124,8 @@ export const register = (data, clearForm, closeModal, setFormErrors) => async (
       },
       body: JSON.stringify(data),
     });
+    // Client side form validation.
+    let formErrors = validations.register(data);
     // If the register request was successful,
     if (response.ok) {
       // Convert JSON response to a javascript object.
@@ -141,8 +145,14 @@ export const register = (data, clearForm, closeModal, setFormErrors) => async (
       } else {
         // The email is already taken.
         dispatch(registerFailure());
-        setFormErrors((errors) => ({ ...errors, ...responseObj.message }));
+        formErrors = { ...formErrors, ...responseObj.message };
       }
+    } else {
+      dispatch(registerFailure());
+    }
+    // If any form errors occurred, display them.
+    if (Object.keys(formErrors).length > 0) {
+      setFormErrors(formErrors);
     }
   } catch (error) {
     dispatch(registerFailure(error));
@@ -161,6 +171,7 @@ export const login = (data, clearForm, closeModal, setFormErrors) => async (
       },
       body: JSON.stringify(data),
     });
+    let formErrors = validations.login(data);
     if (response.ok) {
       // Convert JSON response to a javascript object.
       const responseObj = await response.json();
@@ -178,11 +189,16 @@ export const login = (data, clearForm, closeModal, setFormErrors) => async (
         closeModal();
       } else {
         // The email is already taken.
-        dispatch(loginFailure());
-        setFormErrors((errors) => ({ ...errors, ...responseObj.message }));
+        dispatch(loginFailure(responseObj.message));
       }
+    } else {
+      dispatch(loginFailure());
+    }
+    if (Object.keys(formErrors).length > 0) {
+      setFormErrors(formErrors);
     }
   } catch (error) {
+    console.log(error);
     dispatch(loginFailure(error));
   }
 };
@@ -190,12 +206,15 @@ export const login = (data, clearForm, closeModal, setFormErrors) => async (
 export const logout = () => async (dispatch) => {
   dispatch(logoutRequest());
   try {
+    // Remove refresh token from cookies.
     const response = await fetch('/api/users/logout', {
       method: 'GET',
       credentials: 'include',
     });
     if (response.ok) {
       dispatch(logoutSuccess());
+      // Remove access token from local storage.
+      localStorage.removeItem('act');
     } else {
       dispatch(logoutFailure());
     }
@@ -218,12 +237,12 @@ export const loadUser = () => async (dispatch) => {
         authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response);
     if (response.ok) {
       const responseObj = await response.json();
       dispatch(loadUserSuccess(responseObj.data.user));
     }
   } catch (error) {
+    console.log('Error', error);
     dispatch(loadUserFailure(error));
   }
 };
