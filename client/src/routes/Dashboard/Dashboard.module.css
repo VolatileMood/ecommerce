@@ -1,0 +1,30 @@
+.dashboard {
+  flex: 1;
+  display: flex;
+}
+
+.dashboard__sidebar {
+  display: flex;
+  flex-direction: column;
+  background: var(--blue);
+  color: white;
+}
+
+.dashboard__sidebar > * {
+  margin: 0.5rem;
+}
+
+.dashboard__main {
+  flex: 1;
+}
+
+.sidebar__item {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar__icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}

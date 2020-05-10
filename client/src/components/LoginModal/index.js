@@ -5,7 +5,6 @@ import styles from './LoginModal.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
 import useForm from '../../hooks/useForm';
-import validations from '../../utilities/validations';
 import Button from '../Button';
 import leaningFence from '../../media/images/leaningFence.jpg';
 import { login } from '../../ducks/user';

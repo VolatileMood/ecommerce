@@ -240,6 +240,9 @@ export const loadUser = () => async (dispatch) => {
     if (response.ok) {
       const responseObj = await response.json();
       dispatch(loadUserSuccess(responseObj.data.user));
+    } else {
+      dispatch(loadUserFailure());
+      dispatch(logout());
     }
   } catch (error) {
     console.log('Error', error);

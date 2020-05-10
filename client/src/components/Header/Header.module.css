@@ -3,7 +3,9 @@
   align-items: center;
   justify-content: space-between;
   height: 5rem;
-  padding: 0 1rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--blue);
 }
 
 .header__logo {
@@ -21,7 +23,6 @@
 .header__nav {
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
   color: var(--blue);
   list-style-type: none;
   margin: 0;
@@ -29,5 +30,26 @@
 }
 
 .header__nav > *:not(:last-child) {
-  margin-right: 1rem;
+  margin-right: 2rem;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+}
+
+.header__left > *:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.header__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.link__text {
+  font-size: 1rem;
 }

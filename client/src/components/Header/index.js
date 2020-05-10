@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { GiBalloonDog } from 'react-icons/gi';
+import { GiBalloonDog, GiShop } from 'react-icons/gi';
 import { FaShoppingCart, FaUserAlt } from 'react-icons/fa';
+import { MdDashboard } from 'react-icons/md';
 import styles from './Header.module.css';
 import Button from '../Button';
 import { logout } from '../../ducks/user';
@@ -19,10 +20,22 @@ const Header = ({ openRegister, openLogin }) => {
     nav = (
       <ul className={styles.header__nav}>
         <li>
-          <FaShoppingCart />
+          <Link to='/cart' className={styles.header__link}>
+            <FaShoppingCart className={styles.header__link} />
+            <span className={styles.link__text}>Cart</span>
+          </Link>
         </li>
         <li>
-          <FaUserAlt />
+          <Link to='/user' className={styles.header__link}>
+            <FaUserAlt />
+            <span className={styles.link__text}>User</span>
+          </Link>
+        </li>
+        <li>
+          <Link to='/dashboard' className={styles.header__link}>
+            <MdDashboard />
+            <span className={styles.link__text}>Dashboard</span>
+          </Link>
         </li>
         <li>
           <Button
@@ -54,10 +67,16 @@ const Header = ({ openRegister, openLogin }) => {
 
   return (
     <header className={styles.header}>
-      <Link to='/' className={styles.header__logo}>
-        <GiBalloonDog className={styles.header__logo__icon} />
-        Kaito
-      </Link>
+      <div className={styles.header__left}>
+        <Link to='/' className={styles.header__logo}>
+          <GiBalloonDog className={styles.header__logo__icon} />
+          Kaito
+        </Link>
+        <Link to='/shop' className={styles.header__link}>
+          <GiShop />
+          <span className={styles.link__text}>Shop</span>
+        </Link>
+      </div>
       {isFetching ? <span>Placeholder</span> : nav}
     </header>
   );

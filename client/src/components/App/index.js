@@ -5,9 +5,12 @@ import { useDispatch } from 'react-redux';
 import styles from './App.module.css';
 import Layout from '../Layout';
 import Home from '../../routes/Home';
+import Shop from '../../routes/Shop';
+import Dashboard from '../../routes/Dashboard';
 import RegisterModal from '../RegisterModal';
 import LoginModal from '../LoginModal';
 import refreshToken from '../../utilities/refreshToken';
+import ProtectedRoute from '../ProtectedRoute';
 import { loadUser } from '../../ducks/user';
 
 const App = () => {
@@ -46,6 +49,8 @@ const App = () => {
         <Layout openRegister={openRegister} openLogin={openLogin}>
           <Switch>
             <Route exact path='/' component={Home} />
+            <Route path='/shop' component={Shop} />
+            <Route path='/dashboard' component={Dashboard} />
           </Switch>
         </Layout>
       </BrowserRouter>
