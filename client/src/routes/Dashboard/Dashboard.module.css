@@ -5,26 +5,31 @@
 
 .dashboard__sidebar {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   background: var(--blue);
   color: white;
-}
-
-.dashboard__sidebar > * {
-  margin: 0.5rem;
+  width: 20vw;
+  transition: 0.3s width ease;
 }
 
 .dashboard__main {
   flex: 1;
 }
 
-.sidebar__item {
-  display: flex;
-  justify-content: center;
-}
-
 .sidebar__icon {
   font-size: 1.5rem;
-  margin-right: 0.5rem;
   cursor: pointer;
+}
+
+.sidebar_minimized {
+  width: 4rem;
+}
+
+.sidebar__inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__inner > * {
+  margin: 0.5rem;
 }
