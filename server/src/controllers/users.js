@@ -148,10 +148,12 @@ exports.refreshToken = async (req, res, next) => {
 
 exports.loadUser = (req, res, next) => {
   try {
+    const { password: omit, ...rest } = req.user;
+
     res.json({
       status: 'success',
       data: {
-        user: req.user,
+        user: rest,
       },
     });
   } catch (error) {

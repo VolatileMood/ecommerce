@@ -50,7 +50,7 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/shop' component={Shop} />
-            <Route path='/dashboard' component={Dashboard} />
+            <Route path='/dashboard/:section?' component={Dashboard} />
           </Switch>
         </Layout>
       </BrowserRouter>

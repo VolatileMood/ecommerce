@@ -75,6 +75,20 @@ const schemas = {
 
     return errors;
   },
+  createCategory: (data) => {
+    const requiredFields = ['name'];
+    const errors = {};
+    // Check whether the values are strings.
+    requiredFields.forEach((field) => {
+      if (!isString(data[field])) {
+        data[field] = '';
+      }
+    });
+    if (validator.isEmpty(data.name)) {
+      errors.name = 'Name is required';
+    }
+    return errors;
+  },
 };
 
 export default schemas;

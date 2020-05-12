@@ -4,7 +4,7 @@ const protect = require('../middlewares/protect');
 
 const router = Router();
 
-router.route('/').post(categories.create).get(categories.readAll);
+router.route('/').post(protect, categories.create).get(categories.readAll);
 
 router
   .route('/:category_id')

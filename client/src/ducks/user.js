@@ -129,11 +129,9 @@ export const register = (data, clearForm, closeModal, setFormErrors) => async (
     // If the register request was successful,
     if (response.ok) {
       // Convert JSON response to a javascript object.
-      const responseObj = await response.json();
-      if (responseObj.status === 'success') {
-        const {
-          data: { user, accessToken },
-        } = responseObj;
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        const { user, accessToken } = data;
         // Save user data to the redux state.
         dispatch(registerSuccess(user));
         // Save access token to the local storage.
@@ -145,7 +143,7 @@ export const register = (data, clearForm, closeModal, setFormErrors) => async (
       } else {
         // The email is already taken.
         dispatch(registerFailure());
-        formErrors = { ...formErrors, ...responseObj.message };
+        formErrors = { ...formErrors, ...message };
       }
     } else {
       dispatch(registerFailure());

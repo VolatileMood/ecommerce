@@ -1,0 +1,24 @@
+.table {
+  overflow-y: scroll;
+  max-height: 50vh;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.5rem;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: var(--blue);
+}
+
+tr:nth-child(even) {
+  background-color: var(--grey);
+}
