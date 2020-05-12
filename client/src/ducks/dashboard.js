@@ -133,6 +133,7 @@ export const createCategory = (data, setError) => async (dispatch) => {
       method: 'POST',
       headers: {
         authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });

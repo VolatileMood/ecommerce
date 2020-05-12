@@ -112,6 +112,14 @@ const Dashboard = () => {
                 path='/dashboard/categories/new'
                 component={CategoryForm}
               />
+              {dashboard[section].items && dashboard[section].items.length > 0 && (
+                <Route exact path='/dashboard/:section'>
+                  <Table
+                    header={Object.keys(dashboard[section].items[0])}
+                    data={dashboard[section].items}
+                  />
+                </Route>
+              )}
             </div>
           </>
         ) : (

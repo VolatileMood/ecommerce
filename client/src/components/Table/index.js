@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 import { MdDelete, MdUpdate } from 'react-icons/md';
 import styles from './Table.module.css';
 
-const Table = ({ data }) => {
-  const tableHeader = Object.keys(data[0]);
-
+const Table = ({ header, data }) => {
   return (
     <div className={styles.table}>
       <table>
         <thead>
           <tr>
-            {tableHeader.map((header) => (
-              <th>{header}</th>
+            {header.map((head) => (
+              <th key={head}>{head}</th>
             ))}
             <th></th>
             <th></th>
@@ -20,7 +18,7 @@ const Table = ({ data }) => {
         </thead>
         <tbody>
           {data.map((row) => (
-            <tr>
+            <tr key={row.id}>
               {Object.values(row).map((value) => (
                 <td>{value}</td>
               ))}
@@ -43,6 +41,7 @@ const Table = ({ data }) => {
 };
 
 Table.propTypes = {
+  header: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
 };
 
