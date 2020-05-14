@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { MdDelete, MdUpdate } from 'react-icons/md';
 import styles from './Table.module.css';
 
-const Table = ({ header, data }) => {
+const Table = ({ header, data, section }) => {
   return (
     <div className={styles.table}>
       <table>
@@ -23,12 +24,15 @@ const Table = ({ header, data }) => {
                 <td>{value}</td>
               ))}
               <td>
-                <button>
+                <Link
+                  to={`/dashboard/${section}/update/${row.id}`}
+                  className={styles.button}
+                >
                   <MdUpdate className={styles.icon} />
-                </button>
+                </Link>
               </td>
               <td>
-                <button>
+                <button className={styles.button}>
                   <MdDelete className={styles.icon} />
                 </button>
               </td>
@@ -43,6 +47,7 @@ const Table = ({ header, data }) => {
 Table.propTypes = {
   header: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
+  section: PropTypes.string.isRequired,
 };
 
 export default Table;

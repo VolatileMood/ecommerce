@@ -1,28 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styles from './CategoryForm.module.css';
 import Input from '../Input';
 import Button from '../Button';
-import validations from '../../utilities/validations';
-import { createCategory } from '../../ducks/dashboard';
 
-const CategoryForm = (props) => {
+const CategoryForm = ({ title, callback, validation }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [name, setName] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formError = validations.createCategory({ name });
+    const formError = validation({ name });
     if (Object.keys(formError).length > 0) {
       return setError(formError);
     }
-    dispatch(createCategory({ name }, setError));
+    dispatch(callback({ name }, setError, history));
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.category__form}>
+      <span className={styles.form__title}>{title}</span>
       <Input
         type='text'
         value={name}

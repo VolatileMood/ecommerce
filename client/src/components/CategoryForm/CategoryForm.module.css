@@ -1,3 +1,14 @@
+.category__form {
+  display: flex;
+  flex-direction: column;
+}
+
 .category__form > *:not(:last-child) {
   margin-bottom: 1rem;
+}
+
+.form__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
 }

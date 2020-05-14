@@ -6,6 +6,7 @@ exports.up = function (knex) {
     table.string('email').unique().notNullable();
     table.string('password').notNullable();
     table.integer('token_version').defaultTo(0);
+    table.enum('role', ['user', 'admin']).notNullable();
     table.timestamps(true, true);
   });
 };

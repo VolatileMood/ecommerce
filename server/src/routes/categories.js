@@ -9,7 +9,7 @@ router.route('/').post(protect, categories.create).get(categories.readAll);
 router
   .route('/:category_id')
   .get(categories.readOne)
-  .put(categories.update)
-  .delete(categories.delete);
+  .put(protect, categories.update)
+  .delete(protect, categories.delete);
 
 module.exports = router;

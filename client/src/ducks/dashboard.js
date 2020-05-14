@@ -43,6 +43,12 @@ const categories = (state = initialState, action) => {
         ...state,
         isFetching: false,
       };
+    case DASHBOARD_CREATE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        items: [...state.items, action.category],
+      };
     default:
       return state;
   }
@@ -125,7 +131,7 @@ export const fetchCategories = () => async (dispatch) => {
   }
 };
 
-export const createCategory = (data, setError) => async (dispatch) => {
+export const createCategory = (data, setError, history) => async (dispatch) => {
   dispatch(createCategoryRequest());
   try {
     const token = localStorage.getItem('act');
@@ -141,6 +147,7 @@ export const createCategory = (data, setError) => async (dispatch) => {
       const { status, data, message } = await response.json();
       if (status === 'success') {
         dispatch(createCategorySuccess(data.category));
+        history.push('/dashboard/categories');
       } else {
         dispatch(createCategoryFailure());
         setError(message);

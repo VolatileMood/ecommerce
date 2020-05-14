@@ -26,6 +26,7 @@ exports.register = async (req, res, next) => {
         last_name: lastName,
         email,
         password: hashedPassword,
+        role: 'user',
       })
       .returning('*');
     const user = newUsers[0];

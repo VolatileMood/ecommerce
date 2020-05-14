@@ -8,7 +8,9 @@ import styles from './Dashboard.module.css';
 import Table from '../../components/Table';
 import SidebarItem from '../../components/SidebarItem';
 import CategoryForm from '../../components/CategoryForm';
+import validations from '../../utilities/validations';
 import { fetchCategories } from '../../ducks/dashboard';
+import { createCategory } from '../../ducks/dashboard';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -107,19 +109,26 @@ const Dashboard = () => {
               </NavLink>
             </nav>
             <div className={styles.content}>
-              <Route
-                exact
-                path='/dashboard/categories/new'
-                component={CategoryForm}
-              />
+              <Route exact path='/dashboard/categories/new'>
+                <CategoryForm
+                  title='Add New Category'
+                  callback={createCategory}
+                  validation={validations.createCategory}
+                />
+              </Route>
               {dashboard[section].items && dashboard[section].items.length > 0 && (
                 <Route exact path='/dashboard/:section'>
                   <Table
+                    section={section}
                     header={Object.keys(dashboard[section].items[0])}
                     data={dashboard[section].items}
                   />
                 </Route>
               )}
+              <Route
+                exact
+                path='/dashboard/categories/update/:category_id'
+              ></Route>
             </div>
           </>
         ) : (
