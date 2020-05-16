@@ -7,8 +7,9 @@ import { GiStorkDelivery } from 'react-icons/gi';
 import styles from './Dashboard.module.css';
 import Table from '../../components/Table';
 import SidebarItem from '../../components/SidebarItem';
-import CategoryForm from '../../components/CategoryForm';
 import validations from '../../utilities/validations';
+import CreateCategory from '../CreateCategory';
+import UpdateCategory from '../UpdateCategory';
 import { fetchCategories } from '../../ducks/dashboard';
 import { createCategory } from '../../ducks/dashboard';
 
@@ -110,25 +111,20 @@ const Dashboard = () => {
             </nav>
             <div className={styles.content}>
               <Route exact path='/dashboard/categories/new'>
-                <CategoryForm
-                  title='Add New Category'
-                  callback={createCategory}
-                  validation={validations.createCategory}
-                />
+                <CreateCategory />
               </Route>
               {dashboard[section].items && dashboard[section].items.length > 0 && (
                 <Route exact path='/dashboard/:section'>
                   <Table
                     section={section}
                     header={Object.keys(dashboard[section].items[0])}
-                    data={dashboard[section].items}
+                    data={dashboard[section].items.sort((a, b) => a.id - b.id)}
                   />
                 </Route>
               )}
-              <Route
-                exact
-                path='/dashboard/categories/update/:category_id'
-              ></Route>
+              <Route exact path='/dashboard/categories/update/:category_id'>
+                <UpdateCategory />
+              </Route>
             </div>
           </>
         ) : (

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useForm = (callback, initialValues = {}, close) => {
+const useForm = (callback, initialValues = {}, close, ...rest) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState(initialValues);
 
@@ -11,7 +11,7 @@ const useForm = (callback, initialValues = {}, close) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    callback(values, clear, close, setErrors);
+    callback(values, ...rest, clear, close, setErrors);
   };
 
   const handleChange = (event) => {

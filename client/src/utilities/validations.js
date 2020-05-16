@@ -75,7 +75,7 @@ const schemas = {
 
     return errors;
   },
-  createCategory: (data) => {
+  category: (data) => {
     const requiredFields = ['name'];
     const errors = {};
     // Check whether the values are strings.
@@ -87,7 +87,10 @@ const schemas = {
     if (validator.isEmpty(data.name)) {
       errors.name = 'Name is required';
     }
-    return errors;
+    return {
+      valid: Object.keys(errors).length === 0,
+      errors,
+    };
   },
 };
 

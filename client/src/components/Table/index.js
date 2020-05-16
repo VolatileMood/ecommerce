@@ -1,46 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { MdDelete, MdUpdate } from 'react-icons/md';
 import styles from './Table.module.css';
+import DeleteModal from '../DeleteModal';
 
 const Table = ({ header, data, section }) => {
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+
+  const closeDeleteModal = () => {
+    setDeleteModalIsOpen(false);
+    setDeleteId(null);
+  };
+  const openDeleteModal = (id) => () => {
+    setDeleteModalIsOpen(true);
+    setDeleteId(id);
+  };
+
   return (
-    <div className={styles.table}>
-      <table>
-        <thead>
-          <tr>
-            {header.map((head) => (
-              <th key={head}>{head}</th>
-            ))}
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row) => (
-            <tr key={row.id}>
-              {Object.values(row).map((value) => (
-                <td>{value}</td>
+    <>
+      <DeleteModal
+        deleteId={deleteId}
+        isOpen={deleteModalIsOpen}
+        close={closeDeleteModal}
+        section={section}
+      />
+      <div className={styles.table}>
+        <table>
+          <thead>
+            <tr>
+              {header.map((head) => (
+                <th key={head}>{head}</th>
               ))}
-              <td>
-                <Link
-                  to={`/dashboard/${section}/update/${row.id}`}
-                  className={styles.button}
-                >
-                  <MdUpdate className={styles.icon} />
-                </Link>
-              </td>
-              <td>
-                <button className={styles.button}>
-                  <MdDelete className={styles.icon} />
-                </button>
-              </td>
+              <th></th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.id}>
+                {Object.values(row).map((value) => (
+                  <td>{value}</td>
+                ))}
+                <td>
+                  <Link
+                    to={`/dashboard/${section}/update/${row.id}`}
+                    className={styles.button}
+                  >
+                    <MdUpdate className={styles.icon} />
+                  </Link>
+                </td>
+                <td>
+                  <button
+                    className={styles.button}
+                    onClick={openDeleteModal(row.id)}
+                  >
+                    <MdDelete className={styles.icon} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
