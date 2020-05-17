@@ -221,7 +221,7 @@ export const createCategory = (data, clear, close, setErrors) => async (
   }
 };
 
-export const updateCategory = (data, categoryId) => async (dispatch) => {
+export const updateCategory = (data, categoryId, close) => async (dispatch) => {
   dispatch(updateCategoryRequest());
   try {
     const token = localStorage.getItem('act');
@@ -240,6 +240,7 @@ export const updateCategory = (data, categoryId) => async (dispatch) => {
       const { status, data } = await response.json();
       if (status === 'success') {
         dispatch(updateCategorySuccess(data.category));
+        close();
       } else {
         dispatch(updateCategoryFailure());
       }

@@ -29,6 +29,8 @@ const App = () => {
         // If the access token is expired, go fetch a new one.
         if (Date.now() > exp * 1000) {
           await refreshToken();
+        } else {
+          setTimeout(refreshToken, exp * 1000 - Date.now());
         }
         dispatch(loadUser());
       }

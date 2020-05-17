@@ -35,7 +35,11 @@ const UpdateCategory = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(updateCategory({ name }, category_id));
+    dispatch(
+      updateCategory({ name }, category_id, () =>
+        history.push('/dashboard/categories')
+      )
+    );
   };
 
   return (

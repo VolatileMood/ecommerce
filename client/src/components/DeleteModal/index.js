@@ -18,7 +18,7 @@ const DeleteModal = ({ isOpen, close, deleteId, section }) => {
           Are you sure you want to delete this?
         </span>
         <span className={styles.text}>
-          In '{section}'' with ID: {deleteId}
+          In '{section}' with ID: {deleteId}
         </span>
         <div className={styles.button__container}>
           <Button color='white' background='var(--blue)' onClick={close}>
