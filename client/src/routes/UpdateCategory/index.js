@@ -15,7 +15,6 @@ const UpdateCategory = () => {
 
   const fetchCategory = useCallback(
     async (categoryId) => {
-      console.log('Fetching Category');
       const response = await fetch(`/api/categories/${categoryId}`, {
         method: 'GET',
       });

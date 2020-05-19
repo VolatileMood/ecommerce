@@ -10,6 +10,7 @@ import SidebarItem from '../../components/SidebarItem';
 import validations from '../../utilities/validations';
 import CreateCategory from '../CreateCategory';
 import UpdateCategory from '../UpdateCategory';
+import CreateProduct from '../CreateProduct';
 import { fetchCategories } from '../../ducks/dashboard';
 import { createCategory } from '../../ducks/dashboard';
 
@@ -124,6 +125,9 @@ const Dashboard = () => {
               )}
               <Route exact path='/dashboard/categories/update/:category_id'>
                 <UpdateCategory />
+              </Route>
+              <Route exact path='/dashboard/products/new'>
+                <CreateProduct />
               </Route>
             </div>
           </>

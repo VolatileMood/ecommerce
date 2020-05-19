@@ -1,0 +1,36 @@
+.textarea__container {
+  position: relative;
+}
+
+.textarea__label {
+  position: absolute;
+  top: 1rem;
+  left: 1.2rem;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 5rem;
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  background: var(--grey);
+  transition: all 0.2s ease;
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border: 2px solid black;
+  background: white;
+}
+
+.textarea:not(:placeholder-shown) ~ .textarea__label,
+.textarea:focus ~ .textarea__label {
+  top: 0.1rem;
+  font-size: 0.8rem;
+}

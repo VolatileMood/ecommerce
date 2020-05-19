@@ -1,0 +1,9 @@
+.image__list {
+  display: grid;
+  gap: 1rem;
+  grid-auto-flow: column;
+}
+
+.image {
+  max-height: 8rem;
+}

@@ -1,0 +1,30 @@
+.create__product {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.create__product > * {
+  margin: 1rem;
+}
+
+.form__container {
+  flex: 1;
+}
+
+.form__container > * {
+  margin-bottom: 1rem;
+}
+
+.product__form > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.product__images {
+  flex: 1;
+}
+
+.product__images > * {
+  margin-bottom: 1rem;
+}
