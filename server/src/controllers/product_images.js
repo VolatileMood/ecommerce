@@ -35,6 +35,22 @@ exports.create = async (req, res, next) => {
 
 exports.read = async (req, res, next) => {
   try {
+    const { product_id } = req.params;
+    // Check whether product with id exists.
+    const productArray = await db('products').select().where('id', product_id);
+    if (productArray.length === 0) {
+      throw new AppError(404, 'Product with ID not found.');
+    }
+    // Get all images of the product with given id.
+    const productImages = await db('product_images')
+      .select()
+      .where({ product_id });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        productImages,
+      },
+    });
   } catch (error) {
     next(error);
   }
