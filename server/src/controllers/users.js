@@ -4,6 +4,68 @@ const db = require('../database');
 const AppError = require('../utilities/appError');
 const createToken = require('../utilities/createToken');
 
+exports.readAll = async (_req, res, next) => {
+  try {
+    const users = await db('users').select();
+    res.status(200).json({
+      status: 'success',
+      data: {
+        users,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.readOne = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const userArray = await db('users').select().where('id', user_id);
+    if (userArray.length === 0) {
+      throw new AppError(404, 'User with ID not found.');
+    }
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user: userArray[0],
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const userArray = await db('users')
+      .update(req.body, '*')
+      .where('id', user_id);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user: userArray[0],
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.delete = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    await db('users').where('id', user_id).del();
+    res.status(200).json({
+      status: 'success',
+      message: 'User successfully deleted.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.register = async (req, res, next) => {
   try {
     const { firstName, lastName, email, password } = req.body;

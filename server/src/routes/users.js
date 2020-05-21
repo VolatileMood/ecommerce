@@ -11,5 +11,11 @@ router.post('/login', validate(schemas.login, 'body'), users.login);
 router.get('/logout', cookieParser(), users.logout);
 router.get('/refresh_token', cookieParser(), users.refreshToken);
 router.get('/load_user', protect, users.loadUser);
+router.get('/', protect, users.readAll);
+router
+  .route('/:user_id', protect)
+  .get(users.readOne)
+  .put(users.update)
+  .delete(users.delete);
 
 module.exports = router;

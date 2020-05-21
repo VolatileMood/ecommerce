@@ -92,6 +92,37 @@ const schemas = {
       errors,
     };
   },
+  product: (data) => {
+    const requiredFields = ['category_id', 'name', 'description', 'price'];
+    const errors = {};
+    requiredFields.forEach((field) => {
+      if (!isString(data[field])) {
+        data[field] = '';
+      }
+    });
+    if (!validator.isLength(data.name, { max: 200 })) {
+      errors.name = 'Name must be less than 200 characters';
+    }
+    if (validator.isEmpty(data.name)) {
+      errors.name = 'Name is required';
+    }
+    if (!validator.isLength(data.description, { max: 2000 })) {
+      errors.description = 'Description must be less than 2000 characters';
+    }
+    if (validator.isEmpty(data.description)) {
+      errors.description = 'Description is required';
+    }
+    if (!validator.isNumeric(data.price)) {
+      errors.price = 'Price must be numeric';
+    }
+    if (validator.isEmpty(data.price)) {
+      errors.price = 'Price is required';
+    }
+    return {
+      valid: Object.keys(errors).length === 0,
+      errors,
+    };
+  },
 };
 
 export default schemas;

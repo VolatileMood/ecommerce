@@ -1,6 +1,7 @@
 .table {
-  overflow-y: scroll;
+  overflow: scroll;
   max-height: 50vh;
+  max-width: 70vw;
   border: 2px solid var(--blue);
 }
 

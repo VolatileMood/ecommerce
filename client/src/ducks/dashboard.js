@@ -17,6 +17,9 @@ const DASHBOARD_DELETE_CATEGORY_FAILURE = 'DASHBOARD_DELETE_CATEGORY_FAILURE';
 const DASHBOARD_FETCH_PRODUCTS_REQUEST = 'DASHBOARD_FETCH_PRODUCTS_REQUEST';
 const DASHBOARD_FETCH_PRODUCTS_SUCCESS = 'DASHBOARD_FETCH_PRODUCTS_SUCCESS';
 const DASHBOARD_FETCH_PRODUCTS_FAILURE = 'DASHBOARD_FETCH_PRODUCTS_FAILURE';
+const DASHBOARD_FETCH_PRODUCT_REQUEST = 'DASHBOARD_FETCH_PRODUCT_REQUEST';
+const DASHBOARD_FETCH_PRODUCT_SUCCESS = 'DASHBOARD_FETCH_PRODUCT_SUCCESS';
+const DASHBOARD_FETCH_PRODUCT_FAILURE = 'DASHBOARD_FETCH_PRODUCT_FAILURE';
 const DASHBOARD_CREATE_PRODUCT_REQUEST = 'DASHBOARD_CREATE_PRODUCT_REQUEST';
 const DASHBOARD_CREATE_PRODUCT_SUCCESS = 'DASHBOARD_CREATE_PRODUCT_SUCCESS';
 const DASHBOARD_CREATE_PRODUCT_FAILURE = 'DASHBOARD_CREATE_PRODUCT_FAILURE';
@@ -26,12 +29,18 @@ const DASHBOARD_UPDATE_PRODUCT_FAILURE = 'DASHBOARD_UPDATE_PRODUCT_FAILURE';
 const DASHBOARD_DELETE_PRODUCT_REQUEST = 'DASHBOARD_DELETE_PRODUCT_REQUEST';
 const DASHBOARD_DELETE_PRODUCT_SUCCESS = 'DASHBOARD_DELETE_PRODUCT_SUCCESS';
 const DASHBOARD_DELETE_PRODUCT_FAILURE = 'DASHBOARD_UPDATE_PRODUCT_FAILURE';
-const DASHBOARD_USERS_REQUEST = 'DASHBOARD_USERS_REQUEST';
-const DASHBOARD_USERS_SUCCESS = 'DASHBOARD_USERS_SUCCESS';
-const DASHBOARD_USERS_FAILURE = 'DASHBOARD_USERS_FAILURE';
-const DASHBOARD_ORDERS_REQUEST = 'DASHBOARD_ORDERS_REQUEST';
-const DASHBOARD_ORDERS_SUCCESS = 'DASHBOARD_ORDERS_SUCCESS';
-const DASHBOARD_ORDERS_FAILURE = 'DASHBOARD_ORDERS_FAILURE';
+const DASHBOARD_FETCH_USERS_REQUEST = 'DASHBOARD_FETCH_USERS_REQUEST';
+const DASHBOARD_FETCH_USERS_SUCCESS = 'DASHBOARD_FETCH_USERS_SUCCESS';
+const DASHBOARD_FETCH_USERS_FAILURE = 'DASHBOARD_FETCH_USERS_FAILURE';
+const DASHBOARD_FETCH_USER_REQUEST = 'DASHBOARD_FETCH_USER_REQUEST';
+const DASHBOARD_FETCH_USER_SUCCESS = 'DASHBOARD_FETCH_USER_SUCCESS';
+const DASHBOARD_FETCH_USER_FAILURE = 'DASHBOARD_FETCH_USER_FAILURE';
+const DASHBOARD_UPDATE_USER_REQUEST = 'DASHBOARD_UPDATE_USER_REQUEST';
+const DASHBOARD_UPDATE_USER_SUCCESS = 'DASHBOARD_UPDATE_USER_SUCCESS';
+const DASHBOARD_UPDATE_USER_FAILURE = 'DASHBOARD_UPDATE_USER_FAILURE';
+const DASHBOARD_FETCH_ORDERS_REQUEST = 'DASHBOARD_FETCH_ORDERS_REQUEST';
+const DASHBOARD_FETCH_ORDERS_SUCCESS = 'DASHBOARD_FETCH_ORDERS_SUCCESS';
+const DASHBOARD_FETCH_ORDERS_FAILURE = 'DASHBOARD_FETCH_ORDERS_FAILURE';
 
 // Sub Reducers
 const initialState = {
@@ -132,6 +141,23 @@ const products = (state = initialState, action) => {
 
 const users = (state = initialState, action) => {
   switch (action.type) {
+    case DASHBOARD_FETCH_USERS_REQUEST:
+    case DASHBOARD_UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case DASHBOARD_FETCH_USERS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        items: action.users,
+      };
+    case DASHBOARD_FETCH_USERS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
     default:
       return state;
   }
@@ -139,6 +165,22 @@ const users = (state = initialState, action) => {
 
 const orders = (state = initialState, action) => {
   switch (action.type) {
+    case DASHBOARD_FETCH_ORDERS_REQUEST:
+      return {
+        ...state,
+        isFetching: false,
+      };
+    case DASHBOARD_FETCH_ORDERS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        items: action.orders,
+      };
+    case DASHBOARD_FETCH_ORDERS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
     default:
       return state;
   }
@@ -223,6 +265,20 @@ const fetchProductsFailure = (error) => ({
   error,
 });
 
+const fetchProductRequest = () => ({
+  type: DASHBOARD_FETCH_PRODUCT_REQUEST,
+});
+
+const fetchProductSuccess = (product) => ({
+  type: DASHBOARD_FETCH_PRODUCT_SUCCESS,
+  products,
+});
+
+const fetchProductFailure = (error) => ({
+  type: DASHBOARD_FETCH_PRODUCT_FAILURE,
+  error,
+});
+
 const createProductRequest = () => ({
   type: DASHBOARD_CREATE_PRODUCT_REQUEST,
 });
@@ -262,6 +318,62 @@ const deleteProductSuccess = (productId) => ({
 
 const deleteProductFailure = (error) => ({
   type: DASHBOARD_DELETE_PRODUCT_FAILURE,
+  error,
+});
+
+const fetchUsersRequest = () => ({
+  type: DASHBOARD_FETCH_USERS_REQUEST,
+});
+
+const fetchUsersSuccess = (users) => ({
+  type: DASHBOARD_FETCH_USERS_SUCCESS,
+  users,
+});
+
+const fetchUsersFailure = (error) => ({
+  type: DASHBOARD_FETCH_USERS_FAILURE,
+  error,
+});
+
+const fetchUserRequest = () => ({
+  type: DASHBOARD_FETCH_USER_REQUEST,
+});
+
+const fetchUserSuccess = (user) => ({
+  type: DASHBOARD_FETCH_USER_SUCCESS,
+  users,
+});
+
+const fetchUserFailure = (error) => ({
+  type: DASHBOARD_FETCH_USER_FAILURE,
+  error,
+});
+
+const updateUserRequest = () => ({
+  type: DASHBOARD_UPDATE_USER_REQUEST,
+});
+
+const updateUserSuccess = (user) => ({
+  type: DASHBOARD_UPDATE_USER_SUCCESS,
+  user,
+});
+
+const updateUserFailure = (error) => ({
+  type: DASHBOARD_UPDATE_USER_FAILURE,
+  error,
+});
+
+const fetchOrdersRequest = () => ({
+  type: DASHBOARD_FETCH_ORDERS_REQUEST,
+});
+
+const fetchOrdersSuccess = (orders) => ({
+  type: DASHBOARD_FETCH_ORDERS_SUCCESS,
+  orders,
+});
+
+const fetchOrdersFailure = (error) => ({
+  type: DASHBOARD_FETCH_ORDERS_FAILURE,
   error,
 });
 
@@ -393,7 +505,26 @@ export const fetchProducts = () => async (dispatch) => {
   }
 };
 
-export const createProduct = (data) => async (dispatch) => {
+export const fetchProduct = (productId) => async (dispatch) => {
+  dispatch(fetchProductRequest());
+  try {
+    const response = await fetch(`/api/products/${productId}`, {
+      method: 'GET',
+    });
+    if (response.ok) {
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        dispatch(fetchProductSuccess(data.product));
+      } else {
+        dispatch(fetchProductFailure(message));
+      }
+    }
+  } catch (error) {
+    dispatch(fetchProductFailure(error));
+  }
+};
+
+export const createProduct = (data, images) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     const token = localStorage.getItem('act');
@@ -409,8 +540,25 @@ export const createProduct = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     if (response.ok) {
-      const responseObj = await response.json();
-      console.log('Create Product Response: ', responseObj);
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        // Upload product images.
+        const resp = await fetch(`/api/product_images${data.id}`, {
+          method: 'POST',
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+          body: images,
+        });
+        if (resp.ok) {
+          const { status } = await resp.json();
+          if (status === 'success') {
+            dispatch(createProductSuccess(data.product));
+          }
+        }
+      } else {
+        return dispatch(createProductFailure(message));
+      }
     }
   } catch (error) {
     dispatch(createProductFailure(error));
@@ -445,7 +593,7 @@ export const updateProduct = (productId, data) => async (dispatch) => {
   }
 };
 
-exports.deleteProduct = (productId) => async (dispatch) => {
+export const deleteProduct = (productId) => async (dispatch) => {
   dispatch(deleteProductRequest());
   try {
     const token = localStorage.getItem('act');
@@ -468,5 +616,101 @@ exports.deleteProduct = (productId) => async (dispatch) => {
     }
   } catch (error) {
     dispatch(deleteProductFailure(error));
+  }
+};
+
+export const fetchUsers = () => async (dispatch) => {
+  try {
+    dispatch(fetchUsersRequest());
+    const token = localStorage.getItem('act');
+    if (!token) {
+      return dispatch(fetchUsersFailure('Access token is required.'));
+    }
+    const response = await fetch('/api/users', {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        dispatch(fetchUsersSuccess(data.users));
+      } else {
+        dispatch(fetchUsersFailure(message));
+      }
+    }
+  } catch (error) {
+    dispatch(fetchUsersFailure(error));
+  }
+};
+
+export const fetchUser = (userId) => async (dispatch) => {
+  dispatch(fetchUserRequest());
+  try {
+    const token = localStorage.getItem('act');
+    if (!token) {
+      return dispatch(fetchUserFailure('Access token is required.'));
+    }
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        dispatch(fetchUserSuccess(data.user));
+      } else {
+        dispatch(fetchUserFailure(message));
+      }
+    }
+  } catch (error) {
+    dispatch(fetchUserFailure(error));
+  }
+};
+
+export const updateUser = (userId, data) => async (dispatch) => {
+  dispatch(updateUserRequest());
+  try {
+    const token = localStorage.getItem('act');
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        dispatch(updateUserSuccess(data.user));
+      } else {
+        dispatch(updateUserFailure(message));
+      }
+    }
+  } catch (error) {
+    dispatch(updateUserFailure(error));
+  }
+};
+
+export const fetchOrders = () => async (dispatch) => {
+  dispatch(fetchOrdersRequest());
+  try {
+    const response = await fetch('/api/orders', {
+      method: 'GET',
+    });
+    if (response.ok) {
+      const { status, data, message } = await response.json();
+      if (status === 'success') {
+        dispatch(fetchOrdersSuccess(data.orders));
+      } else {
+        dispatch(fetchOrdersFailure(message));
+      }
+    }
+  } catch (error) {
+    dispatch(fetchOrdersFailure(error));
   }
 };

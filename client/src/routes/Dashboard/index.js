@@ -7,12 +7,16 @@ import { GiStorkDelivery } from 'react-icons/gi';
 import styles from './Dashboard.module.css';
 import Table from '../../components/Table';
 import SidebarItem from '../../components/SidebarItem';
-import validations from '../../utilities/validations';
 import CreateCategory from '../CreateCategory';
 import UpdateCategory from '../UpdateCategory';
 import CreateProduct from '../CreateProduct';
-import { fetchCategories } from '../../ducks/dashboard';
-import { createCategory } from '../../ducks/dashboard';
+import CreateUser from '../CreateUser';
+import {
+  fetchCategories,
+  fetchProducts,
+  fetchUsers,
+  fetchOrders,
+} from '../../ducks/dashboard';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -20,8 +24,19 @@ const Dashboard = () => {
   const dashboard = useSelector((state) => state.dashboard);
 
   useEffect(() => {
-    if (section === 'categories') {
-      dispatch(fetchCategories());
+    switch (section) {
+      case 'categories':
+        dispatch(fetchCategories());
+        break;
+      case 'products':
+        dispatch(fetchProducts());
+        break;
+      case 'users':
+        dispatch(fetchUsers());
+        break;
+      case 'orders':
+        dispatch(fetchOrders());
+        break;
     }
   }, [section]);
 
@@ -128,6 +143,9 @@ const Dashboard = () => {
               </Route>
               <Route exact path='/dashboard/products/new'>
                 <CreateProduct />
+              </Route>
+              <Route exact path='/dashboard/users/new'>
+                <CreateUser />
               </Route>
             </div>
           </>

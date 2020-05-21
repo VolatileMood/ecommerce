@@ -1,0 +1,13 @@
+.create__user__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create__user__form > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.create__user__button {
+  color: var(--blue);
+  border: 2px solid var(--blue);
+}

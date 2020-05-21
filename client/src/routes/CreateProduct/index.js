@@ -9,8 +9,7 @@ import ImageList from '../../components/ImageList';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
 import Button from '../../components/Button';
-import { fetchCategories } from '../../ducks/dashboard';
-import { createProduct } from '../../ducks/dashboard';
+import { fetchCategories, createProduct } from '../../ducks/dashboard';
 
 const CreateProduct = (props) => {
   const dispatch = useDispatch();
@@ -32,24 +31,17 @@ const CreateProduct = (props) => {
     event.preventDefault();
     const formData = new FormData();
     images.forEach((image, index) => formData.append(index, image));
-    console.log('Form Data', formData.has(0));
+    dispatch(
+      createProduct(
+        { category_id: category.value, name, description, price },
+        formData
+      )
+    );
   };
 
   const onDrop = useCallback((files) => {
-    files.forEach((file) => {
-      // Initialize FileReader browser API
-      const reader = new FileReader();
-      // onload callback gets called after the reader reads the file data
-      reader.onload = function (e) {
-        // add the image into the state. Since FileReader reading process is asynchronous, its better to get the latest snapshot state (i.e., prevState) and update it.
-        setImages((prevState) => [
-          ...prevState,
-          { id: uuidv4(), src: e.target.result },
-        ]);
-      };
-      // Read the file as Data URL (since we accept only images)
-      reader.readAsDataURL(file);
-    });
+    console.log('Files', files);
+    setImages((prevState) => [...prevState, ...files]);
   }, []);
 
   return (
@@ -95,7 +87,12 @@ const CreateProduct = (props) => {
       </div>
       <div className={styles.product__images}>
         <Dropzone onDrop={onDrop} accept={'image/*'} />
-        <ImageList images={images} />
+        <ImageList
+          images={images.map((image, index) => ({
+            id: index,
+            src: URL.createObjectURL(image),
+          }))}
+        />
       </div>
     </div>
   );

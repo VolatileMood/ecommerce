@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Button.module.css';
 
-const Button = ({ children, onClick, type, color, background }) => {
+const Button = ({ children, onClick, type, className }) => {
   return (
     <button
-      className={styles.button}
+      className={`${styles.button} ${className}`}
       onClick={onClick}
       type={type}
-      style={{ background, color }}
     >
       {children}
     </button>
@@ -17,8 +16,7 @@ const Button = ({ children, onClick, type, color, background }) => {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  color: PropTypes.string.isRequired,
-  background: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   type: PropTypes.string,
 };

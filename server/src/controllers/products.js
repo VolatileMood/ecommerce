@@ -3,6 +3,7 @@ const AppError = require('../utilities/appError');
 
 exports.create = async (req, res, next) => {
   try {
+    console.log('Create: ', req.body);
     const data = await db('products').insert(req.body).returning('*');
     res.status(201).json({
       status: 'success',
@@ -15,7 +16,7 @@ exports.create = async (req, res, next) => {
   }
 };
 
-exports.readAll = async (req, res, next) => {
+exports.readAll = async (_req, res, next) => {
   try {
     const data = await db('products').select();
     res.status(200).json({

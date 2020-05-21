@@ -1,6 +1,33 @@
+const db = require('../database');
+const streamUpload = require('../utilities/streamUpload');
+const AppError = require('../utilities/appError');
+
 exports.create = async (req, res, next) => {
   try {
-    console.log('Files: ', req.files);
+    // Get product id from url.
+    const { product_id } = req.params;
+    // Check whether product with id exists.
+    const productArray = await db('products').select().where('id', product_id);
+    // If no product with id found, return an error.
+    if (productArray.length === 0) {
+      throw new AppError(404, 'Product with ID not found.');
+    }
+    // Upload all image files to cloudinary.
+    const uploadedImages = await Promise.all(
+      req.files.map(async (file) => {
+        const { public_id, secure_url } = await streamUpload(file);
+        return { product_id, public_id, image_url: secure_url };
+      })
+    );
+    // Save all product image links to the database.
+    const imageArray = await db('product_images').insert(uploadedImages, '*');
+    // Send response with image links.
+    res.status(201).json({
+      status: 'success',
+      data: {
+        images: imageArray,
+      },
+    });
   } catch (error) {
     next(error);
   }
