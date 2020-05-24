@@ -524,7 +524,7 @@ export const fetchProduct = (productId) => async (dispatch) => {
   }
 };
 
-export const createProduct = (data, images) => async (dispatch) => {
+export const createProduct = (product, images) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     const token = localStorage.getItem('act');
@@ -537,13 +537,13 @@ export const createProduct = (data, images) => async (dispatch) => {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(product),
     });
     if (response.ok) {
       const { status, data, message } = await response.json();
       if (status === 'success') {
         // Upload product images.
-        const resp = await fetch(`/api/product_images${data.id}`, {
+        const resp = await fetch(`/api/product_images/${data.product.id}`, {
           method: 'POST',
           headers: {
             authorization: `Bearer ${token}`,
